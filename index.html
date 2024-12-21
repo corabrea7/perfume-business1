@@ -1,0 +1,609 @@
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <link href="responsive.css" rel="stylesheet"/>
+  <title>
+   Perfume Business Sales Manager
+  </title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js">
+  </script>
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js">
+  </script>
+ <style>
+    body {
+        background-color: #1a202c;
+        color: #fbd38d;
+        font-family: 'Roboto', sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    header {
+        background-color: #2d3748;
+        color: #fbd38d;
+        text-align: center;
+        padding: 20px 0;
+    }
+    header img {
+        margin-bottom: 20px;
+    }
+    header h1 {
+        font-size: 2.5rem;
+        margin: 0;
+    }
+    header .total-sales, header .current-date {
+        margin-top: 10px;
+        font-size: 1.25rem;
+    }
+    main {
+        margin-top: 20px;
+    }
+    section {
+        margin-bottom: 40px;
+    }
+    section h2 {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+    }
+    form {
+        background-color: #4a5568;
+        padding: 20px;
+        border-radius: 8px;
+    }
+    form .form-group {
+        margin-bottom: 20px;
+    }
+    form label {
+        display: block;
+        margin-bottom: 5px;
+        color: #fbd38d;
+    }
+    form input {
+        width: 100%;
+        padding: 10px;
+        border: 2px solid #d69e2e;
+        border-radius: 4px;
+        color: #1a202c;
+    }
+    form button {
+        background-color: #d69e2e;
+        color: #1a202c;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    form button:hover {
+        background-color: #b7791f;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+    table th, table td {
+        border: 1px solid #4a5568;
+        padding: 10px;
+        text-align: left;
+    }
+    table th {
+        background-color: #4a5568;
+        color: #fbd38d;
+    }
+    table tr:nth-child(even) {
+        background-color: #2d3748;
+    }
+    table tr:nth-child(odd) {
+        background-color: #1a202c;
+    }
+    .order-status {
+        width: 100%;
+        padding: 10px;
+        border: 2px solid #d69e2e;
+        border-radius: 4px;
+        color: #1a202c;
+    }
+    .actions button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #fbd38d;
+    }
+    .actions button:hover {
+        color: #d69e2e;
+    }
+    .chart-container {
+        background-color: #4a5568;
+        padding: 20px;
+        border-radius: 8px;
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+        header h1 {
+            font-size: 2rem; /* Smaller font size for mobile */
+        }
+        header .total-sales, header .current-date {
+            font-size: 1rem; /* Smaller font size for mobile */
+        }
+        section h2 {
+            font-size: 1.25rem; /* Smaller section title font size */
+        }
+        form {
+            padding: 15px; /* Less padding on smaller screens */
+        }
+        form input {
+            padding: 8px; /* Less padding for inputs */
+        }
+        form button {
+            padding: 8px 16px; /* Less padding for buttons */
+        }
+        table th, table td {
+            padding: 8px; /* Less padding for table cells */
+        }
+    }
+
+    @media (max-width: 480px) {
+        header h1 {
+            font-size: 1.5rem; /* Even smaller font size for very small screens */
+        }
+        section h2 {
+            font-size: 1.1rem; /* Smaller section title font size */
+        }
+        form {
+            padding: 10px; /* Less padding on smaller screens */
+        }
+        form input {
+            padding: 6px; /* Less padding for inputs */
+        }
+        form button {
+            padding: 6px 12px; /* Less */
+        }
+    }
+    </style>
+        
+ </head>
+ <body>
+  <div class="container">
+   <header>
+    <img alt="Company logo with a golden and black theme, featuring the text 'DEVIOUR' and a perfume bottle icon" height="100" src="https://storage.googleapis.com/a1aa/image/95ZFaoZ2eTQYLiQL6EewnInyxNPkH668Qtzey0ReffAyPCTfJA.jpg" width="100"/>
+    <h1>
+     DEVIOUR FRAGRANCES
+    </h1>
+    <div class="total-sales">
+     Total Sales: PKR
+     <span id="total-sales">
+      0
+     </span>
+    </div>
+    <div class="current-date">
+     Date:
+     <span id="current-date">
+     </span>
+    </div>
+   </header>
+   <main>
+    <section>
+     <h2>
+      Add New Sale
+     </h2>
+     <form id="sales-form">
+      <div class="form-group">
+       <label for="customer-name">
+        Customer Name
+       </label>
+       <input id="customer-name" required="" type="text"/>
+      </div>
+      <div class="form-group">
+       <label for="customer-email">
+        Customer Email (Optional)
+       </label>
+       <input id="customer-email" type="email"/>
+      </div>
+      <div class="form-group">
+       <label for="customer-phone">
+        Customer Phone
+       </label>
+       <input id="customer-phone" required="" type="tel"/>
+      </div>
+      <div class="form-group">
+       <label for="customer-address">
+        Customer Address
+       </label>
+       <input id="customer-address" required="" type="text"/>
+      </div>
+      <div class="form-group">
+       <label for="product-name">
+        Product Name
+       </label>
+       <input id="product-name" required="" type="text"/>
+      </div>
+      <div class="form-group">
+       <label for="product-quantity">
+        Product Quantity
+       </label>
+       <input id="product-quantity" required="" type="number"/>
+      </div>
+      <div class="form-group">
+       <label for="product-cost">
+        Product Cost per Piece (PKR)
+       </label>
+       <input id="product-cost" required="" type="number"/>
+      </div>
+      <button type="submit">
+       Add Sale
+      </button>
+     </form>
+    </section>
+    <section>
+     <h2>
+      Order Board
+     </h2>
+     <table>
+      <thead>
+       <tr>
+        <th>
+         Order Number
+        </th>
+        <th>
+         Customer Name
+        </th>
+        <th>
+         Email
+        </th>
+        <th>
+         Phone
+        </th>
+        <th>
+         Address
+        </th>
+        <th>
+         Product Name
+        </th>
+        <th>
+         Quantity
+        </th>
+        <th>
+         Cost per Piece
+        </th>
+        <th>
+         Total Cost
+        </th>
+        <th>
+         Status
+        </th>
+        <th>
+         Actions
+        </th>
+       </tr>
+      </thead>
+      <tbody id="sales-records">
+       <!-- Sales records will be dynamically added here -->
+      </tbody>
+     </table>
+    </section>
+    <section>
+     <h2>
+      Sales History
+     </h2>
+     <table>
+      <thead>
+       <tr>
+        <th>
+         Order Number
+        </th>
+        <th>
+         Customer Name
+        </th>
+        <th>
+         Email
+        </th>
+        <th>
+         Phone
+        </th>
+        <th>
+         Address
+        </th>
+        <th>
+         Product Name
+        </th>
+        <th>
+         Quantity
+        </th>
+        <th>
+         Cost per Piece
+        </th>
+        <th>
+         Total Cost
+        </th>
+        <th>
+         Status
+        </th>
+       </tr>
+      </thead>
+      <tbody id="sales-history">
+       <!-- Sales history will be dynamically added here -->
+      </tbody>
+     </table>
+    </section>
+    <section>
+     <h2>
+      Monthly Sales Stats
+     </h2>
+     <div class="chart-container">
+      <canvas id="sales-chart">
+      </canvas>
+     </div>
+    </section>
+   </main>
+  </div>
+  <script>
+   document.addEventListener('DOMContentLoaded', () => {
+            const salesForm = document.getElementById('sales-form');
+            const salesRecords = document.getElementById('sales-records');
+            const salesHistory = document.getElementById('sales-history');
+            const totalSales = document.getElementById('total-sales');
+            const currentDate = document.getElementById('current-date');
+            const salesChartCtx = document.getElementById('sales-chart').getContext('2d');
+
+            // Set current date
+            const today = new Date();
+            currentDate.textContent = today.toLocaleDateString();
+
+            // Load saved data from localStorage
+            const savedSales = JSON.parse(localStorage.getItem('salesRecords')) || [];
+            const savedHistory = JSON.parse(localStorage.getItem('salesHistory')) || [];
+            let totalSalesAmount = savedSales.reduce((acc, sale) => acc + (sale.productQuantity * sale.productCost), 0);
+            let orderNumberCounter = parseInt(localStorage.getItem('orderNumberCounter')) || 1;
+
+            // Render saved sales records
+            savedSales.forEach(sale => {
+                addSaleToTable(sale, salesRecords);
+            });
+
+            // Render saved sales history
+            savedHistory.forEach(sale => {
+                addSaleToTable(sale, salesHistory);
+            });
+
+            // Update total sales
+            totalSales.textContent = totalSalesAmount;
+
+            // Handle form submission
+            salesForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                const customerName = document.getElementById('customer-name').value;
+                const customerEmail = document.getElementById('customer-email').value;
+                const customerPhone = document.getElementById('customer-phone').value;
+                const customerAddress = document.getElementById('customer-address').value;
+                const productName = document.getElementById('product-name').value;
+                const productQuantity = document.getElementById('product-quantity').value;
+                const productCost = document.getElementById('product-cost').value;
+                const totalCost = productQuantity * productCost;
+
+                const newSale = {
+                    orderNumber: orderNumberCounter++,
+                    customerName,
+                    customerEmail: customerEmail || 'N/A',
+                    customerPhone,
+                    customerAddress,
+                    productName,
+                    productQuantity,
+                    productCost,
+                    totalCost,
+                    status: 'pending',
+                    date: new Date().toISOString()
+                };
+
+                addSaleToTable(newSale, salesRecords);
+
+                // Save to localStorage
+                savedSales.push(newSale);
+                localStorage.setItem('salesRecords', JSON.stringify(savedSales));
+                localStorage.setItem('orderNumberCounter', orderNumberCounter);
+
+                // Update total sales
+                totalSalesAmount += totalCost;
+                totalSales.textContent = totalSalesAmount;
+
+                // Update chart
+                updateChart();
+
+                // Clear form
+                salesForm.reset();
+
+                // Show order confirmation
+                showOrderConfirmation(newSale);
+            });
+
+            // Handle delete action and status change
+            salesRecords.addEventListener('click', (e) => {
+                if (e.target.classList.contains('delete-btn') || e.target.parentElement.classList.contains('delete-btn')) {
+                    const row = e.target.closest('tr');
+                    const orderNumber = row.querySelector('td').textContent;
+
+                    // Remove from localStorage
+                    const index = savedSales.findIndex(sale => sale.orderNumber == orderNumber);
+                    if (index !== -1) {
+                        totalSalesAmount -= savedSales[index].totalCost;
+                        savedSales.splice(index, 1);
+                        localStorage.setItem('salesRecords', JSON.stringify(savedSales));
+                    }
+
+                    row.remove();
+
+                    // Update total sales
+                    totalSales.textContent = totalSalesAmount;
+
+                    // Update chart
+                    updateChart();
+                }
+
+                if (e.target.classList.contains('order-status')) {
+                    const row = e.target.closest('tr');
+                    const orderNumber = row.querySelector('td').textContent;
+                    const newStatus = e.target.value;
+
+                    // Update status in localStorage
+                    const sale = savedSales.find(sale => sale.orderNumber == orderNumber);
+                    if (sale) {
+                        sale.status = newStatus;
+                        localStorage.setItem('salesRecords', JSON.stringify(savedSales));
+                    }
+                }
+            });
+
+            // Function to add sale to table
+            function addSaleToTable(sale, table) {
+                const newRow = document.createElement('tr');
+                newRow.innerHTML = `
+                    <td>${sale.orderNumber}</td>
+                    <td>${sale.customerName}</td>
+                    <td>${sale.customerEmail}</td>
+                    <td>${sale.customerPhone}</td>
+                    <td>${sale.customerAddress}</td>
+                    <td>${sale.productName}</td>
+                    <td>${sale.productQuantity}</td>
+                    <td>${sale.productCost}</td>
+                    <td>${sale.totalCost}</td>
+                    <td>
+                        <select class="order-status">
+                            <option value="pending" ${sale.status === 'pending' ? 'selected' : ''}>Pending</option>
+                            <option value="shipped" ${sale.status === 'shipped' ? 'selected' : ''}>Shipped</option>
+                            <option value="delivered" ${sale.status === 'delivered' ? 'selected' : ''}>Delivered</option>
+                            <option value="cancelled" ${sale.status === 'cancelled' ? 'selected' : ''}>Cancelled</option>
+                        </select>
+                    </td>
+                    <td class="actions">
+                        <button class="delete-btn"><i class="fas fa-trash-alt"></i></button>
+                        <button class="screenshot-btn" data-order-number="${sale.orderNumber}"><i class="fas fa-camera"></i></button>
+                    </td>
+                `;
+                table.appendChild(newRow);
+            }
+
+            // Function to show order confirmation
+            function showOrderConfirmation(sale) {
+                const confirmationDiv = document.createElement('div');
+                confirmationDiv.classList.add('bg-gray-800', 'p-4', 'rounded', 'shadow-md', 'mt-4');
+                confirmationDiv.innerHTML = `
+                    <h3 class="text-xl font-semibold mb-4">Order Confirmation</h3>
+                    <p>Order Number: ${sale.orderNumber}</p>
+                    <p>Customer Name: ${sale.customerName}</p>
+                    <p>Email: ${sale.customerEmail}</p>
+                    <p>Phone: ${sale.customerPhone}</p>
+                    <p>Address: ${sale.customerAddress}</p>
+                    <p>Product Name: ${sale.productName}</p>
+                    <p>Quantity: ${sale.productQuantity}</p>
+                    <p>Cost per Piece: ${sale.productCost}</p>
+                    <p>Total Cost: ${sale.totalCost}</p>
+                    <p>Status: ${sale.status}</p>
+                `;
+                document.body.appendChild(confirmationDiv);
+
+                // Automatically generate screenshot
+                html2canvas(confirmationDiv).then(canvas => {
+                    const imgData = canvas.toDataURL('image/png');
+                    const link = document.createElement('a');
+                    link.href = imgData;
+                    link.download = `order_${sale.orderNumber}.png`;
+                    link.click();
+                });
+            }
+
+            // Handle screenshot button click
+            salesRecords.addEventListener('click', (e) => {
+                if (e.target.classList.contains('screenshot-btn') || e.target.parentElement.classList.contains('screenshot-btn')) {
+                    const orderNumber = e.target.dataset.orderNumber || e.target.parentElement.dataset.orderNumber;
+                    const sale = savedSales.find(sale => sale.orderNumber == orderNumber);
+                    if (sale) {
+                        showOrderConfirmation(sale);
+                    }
+                }
+            });
+
+            // Save sales history at the end of each month
+            const currentMonth = today.getMonth();
+            const savedMonth = localStorage.getItem('currentMonth');
+
+            if (savedMonth && parseInt(savedMonth) !== currentMonth) {
+                // Move current sales to history
+                savedSales.forEach(sale => {
+                    addSaleToTable(sale, salesHistory);
+                    savedHistory.push(sale);
+                });
+
+                // Clear current sales
+                localStorage.setItem('salesRecords', JSON.stringify([]));
+                localStorage.setItem('salesHistory', JSON.stringify(savedHistory));
+                localStorage.setItem('currentMonth', currentMonth.toString());
+
+                // Clear sales records table
+                salesRecords.innerHTML = '';
+                totalSalesAmount = 0;
+                totalSales.textContent = totalSalesAmount;
+            } else {
+                localStorage.setItem('currentMonth', currentMonth.toString());
+            }
+
+            // Initialize chart
+            const salesChart = new Chart(salesChartCtx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Monthly Sales',
+                        data: [],
+                        borderColor: '#d69e2e',
+                        backgroundColor: 'rgba(214, 158, 46, 0.2)',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Month'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Sales'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Function to update chart
+            function updateChart() {
+                const monthlySales = Array(12).fill(0);
+
+                savedSales.forEach(sale => {
+                    const saleDate = new Date(sale.date);
+                    const month = saleDate.getMonth();
+                    monthlySales[month] += sale.totalCost;
+                });
+
+                salesChart.data.labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                salesChart.data.datasets[0].data = monthlySales;
+                salesChart.update();
+            }
+
+            // Initial chart update
+            updateChart();
+        });
+  </script>
+ </body>
+</html>
