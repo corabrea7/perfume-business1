@@ -128,7 +128,36 @@
         padding: 20px;
         border-radius: 8px;
     }
+    .table-responsive {
+    overflow-x: auto; /* Allow horizontal scrolling */
+    margin-bottom: 20px; /* Space below the table */
+}
 
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table th, table td {
+    border: 1px solid #4a5568;
+    padding: 10px;
+    text-align: left;
+    white-space: nowrap; /* Prevent text from wrapping */
+}
+
+@media (max-width: 768px) {
+    table th, table td {
+        padding: 8px; /* Less padding for table cells */
+        font-size: 0.9rem; /* Smaller font size for mobile */
+    }
+}
+
+@media (max-width: 480px) {
+    table th, table td {
+        font-size: 0.8rem; /* Even smaller font size for very small screens */
+    }
+}
     /* Responsive Styles */
     @media (max-width: 768px) {
         header h1 {
@@ -160,7 +189,7 @@
         }
         section h2 {
             font-size: 1.1rem; /* Even smaller section title font size */
-            
+
         }
     }
     </style>
@@ -238,107 +267,65 @@
       </button>
      </form>
     </section>
-    <section>
-     <h2>
-      Order Board
-     </h2>
-     <table>
-      <thead>
-       <tr>
-        <th>
-         Order Number
-        </th>
-        <th>
-         Customer Name
-        </th>
-        <th>
-         Email
-        </th>
-        <th>
-         Phone
-        </th>
-        <th>
-         Address
-        </th>
-        <th>
-         Product Name
-        </th>
-        <th>
-         Quantity
-        </th>
-        <th>
-         Cost per Piece
-        </th>
-        <th>
-         Total Cost
-        </th>
-        <th>
-         Status
-        </th>
-        <th>
-         Actions
-        </th>
-       </tr>
-      </thead>
-      <tbody id="sales-records">
-       <!-- Sales records will be dynamically added here -->
-      </tbody>
-     </table>
-    </section>
-    <section>
-     <h2>
-      Sales History
-     </h2>
-     <table>
-      <thead>
-       <tr>
-        <th>
-         Order Number
-        </th>
-        <th>
-         Customer Name
-        </th>
-        <th>
-         Email
-        </th>
-        <th>
-         Phone
-        </th>
-        <th>
-         Address
-        </th>
-        <th>
-         Product Name
-        </th>
-        <th>
-         Quantity
-        </th>
-        <th>
-         Cost per Piece
-        </th>
-        <th>
-         Total Cost
-        </th>
-        <th>
-         Status
-        </th>
-       </tr>
-      </thead>
-      <tbody id="sales-history">
-       <!-- Sales history will be dynamically added here -->
-      </tbody>
-     </table>
-    </section>
-    <section>
-     <h2>
-      Monthly Sales Stats
-     </h2>
-     <div class="chart-container">
-      <canvas id="sales-chart">
-      </canvas>
-     </div>
-    </section>
-   </main>
+    <main>
+        <section>
+            <h2>Order Board</h2>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Order Number</th>
+                            <th>Customer Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Address</th>
+                            <th>Product Name</th>
+                            <th>Quantity</th>
+                            <th>Cost per Piece</th>
+                            <th>Total Cost</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sales-records">
+                        <!-- Sales records will be dynamically added here -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    
+        <section>
+            <h2>Sales History</h2>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Order Number</th>
+                            <th>Customer Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Address</th>
+                            <th>Product Name</th>
+                            <th>Quantity</th>
+                            <th>Cost per Piece</th>
+                            <th>Total Cost</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sales-history">
+                        <!-- Sales history will be dynamically added here -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    
+        <section>
+            <h2>Monthly Sales Stats</h2>
+            <div class="chart-container">
+                <canvas id="sales-chart"></canvas>
+            </div>
+        </section>
+    </main>
   </div>
   <script>
    document.addEventListener('DOMContentLoaded', () => {
